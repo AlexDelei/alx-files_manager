@@ -10,9 +10,7 @@ class RedisClient {
   }
 
   isAlive() {
-    const success = this.client.on('success', () => {
-      return true;
-    });
+    const success = this.client.on('success', () => true);
     if (success) return true;
     return false;
   }
@@ -34,4 +32,4 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
-export { redisClient };
+export default redisClient;
