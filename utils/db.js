@@ -11,19 +11,31 @@ class DBClient {
   }
 
   isAlive() {
-    return this.client.connect();
+    return this.client && this.client.topology && this.client.topology.isConnected();
   }
 
   async nbUsers() {
-    this.client.connect();
-    const db = this.client.db(this.dbName);
-    return db.collection('users').countDocuments();
+    try {
+      await this.client.connect();
+      const db = this.client.db(this.dbName);
+      const usersCollection = db.collection('users');
+      return await usersCollection.countDocuments();
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
   }
 
   async nbFiles() {
-    this.client.connect();
-    const db = this.client.db(this.dbName);
-    return db.collection('files').countDocuments();
+    try {
+      await this.client.connect();
+      const db = this.client.db(this.dbName);
+      const filesCollection = db.collection('files');
+      return await filesCollection.countDocuments();
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
   }
 }
 
