@@ -10,9 +10,7 @@ class RedisClient {
   }
 
   isAlive() {
-    const success = this.client.on('success', () => true);
-    if (success) return true;
-    return false;
+    return this.client.connected();
   }
 
   async get(key) {
