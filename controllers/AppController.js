@@ -3,7 +3,7 @@ import dbClient from '../utils/db'
 
 class AppController {
   static getStatus(request, response) {
-    return response.status(200).send({ redis: redisClient.isAlive() });
+    return response.status(200).send({ redis: redisClient.isAlive(), db: dbClient.isAlive() });
   }
 
   static async getStats(request, response) {
