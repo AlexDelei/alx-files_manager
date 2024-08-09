@@ -3,11 +3,11 @@ const dbClient = require('../utils/db');
 
 class AppController {
   static getStatus(request, response) {
-    if (redisClient.isAlive() && dbClient.isAlive()) {
+    if (redisClient.isAlive && dbClient.isAlive) {
       return response.status(200).send({ redis: true, db: true });
     }
     return response.status(500).send(
-      { redis: redisClient.isAlive(), db: dbClient.isAlive() },
+      { redis: redisClient.isAlive, db: dbClient.isAlive },
     );
   }
 
