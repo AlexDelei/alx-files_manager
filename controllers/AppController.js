@@ -3,7 +3,7 @@ const dbClient = require('../utils/db');
 
 class AppController {
   static getStatus(request, response) {
-    return response.status(200).send({ redis: true, db: true });
+    return response.status(200).send(redisClient.isAlive());
   }
 
   static async getStats(request, response) {
