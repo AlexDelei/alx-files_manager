@@ -27,7 +27,7 @@ class DBClient {
       const usersCollection = await this.db.collection('users');
       return usersCollection.countDocuments();
     } catch (error) {
-      console.log(error);
+      console.log(`Error trying to fetch users: ${error}`);
       return 0;
     }
   }
@@ -37,7 +37,7 @@ class DBClient {
       const filesCollection = await this.db.collection('files');
       return filesCollection.countDocuments();
     } catch (error) {
-      console.log(error);
+      console.log(`Error trying to fetch files: ${error}`);
       return 0;
     }
   }
