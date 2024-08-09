@@ -1,5 +1,5 @@
+import AppController from '../controllers/AppController';
 const express = require('express');
-const AppController = require('../controllers/AppController');
 
 const app = express();
 app.use(express.json());
