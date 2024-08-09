@@ -2,6 +2,7 @@ const express = require('express');
 const AppController = require('../controllers/AppController');
 
 const app = express();
+app.use(express.json());
 
 app.get('/status', (req, res) => {
   AppController.getStatus(req, res);
