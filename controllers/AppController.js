@@ -17,12 +17,12 @@ class AppController {
       const stats = {
         users,
         files,
-      }
+      };
 
       return response.status(200).json(stats);
     } catch (error) {
       console.log(`An error occured trying to fetch stats: ${error}`);
-      response.status(500).send('Internal Server Error');
+      return response.status(500).send('Internal Server Error');
     }
   }
 }
