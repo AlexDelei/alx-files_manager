@@ -11,10 +11,19 @@ class AppController {
   }
 
   static async getStats(request, response) {
-    const users = await dbClient.nbUsers();
-    const files = await dbClient.nbFiles();
+    try {
+      const users = await dbClient.nbUsers();
+      const files = await dbClient.nbFiles();
+      const stats = {
+        users,
+        files,
+      }
 
-    return response.status(200).send({ users, files });
+      return response.status(200).json(stats);
+    } catch (error) {
+      console.log(`An error occured trying to fetch stats: ${error}`);
+      response.status(500).send('Internal Server Error');
+    }
   }
 }
 
