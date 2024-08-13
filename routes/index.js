@@ -1,15 +1,13 @@
-import AppController from '../controllers/AppController';
+import AppController from '../controllers/AppController'
 const express = require('express');
+const router = express.Router();
 
-const app = express();
-app.use(express.json());
-
-app.get('/status', (req, res) => {
-  AppController.getStatus(req, res);
+router.get('/status', (req, res) => {
+  AppController.getStatus(req, res)
 });
 
-app.get('/stats', (req, res) => {
-  AppController.getStats(req, res);
+router.get('/stats', (req, res) => {
+  AppController.getStats(req, res)
 });
 
-module.exports = app;
+module.exports = router;
