@@ -12,7 +12,7 @@ class AuthController {
     }
 
     // Decoding the base64 credentials
-    const base64Creds = authHeader.split()[1];
+    const base64Creds = authHeader.split(' ')[1];
     const decodedCreds = Buffer.from(base64Creds, 'base64').toString('ascii');
     const [email, password] = decodedCreds.split(':');
 
