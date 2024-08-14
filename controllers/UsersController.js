@@ -22,7 +22,7 @@ class UsersController {
     return res.status(201).json(
       {
         id: saved.insertedId,
-        email: saved.email,
+        email,
       },
     );
   }
