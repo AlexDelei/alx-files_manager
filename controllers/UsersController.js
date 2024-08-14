@@ -1,4 +1,5 @@
 import sha1 from 'sha1';
+import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
 
 class UsersController {
@@ -25,6 +26,24 @@ class UsersController {
         email: newUser.email,
       },
     );
+  }
+
+  static async getMe(req, res) {
+    // extract token from the header 'X-Token: <token>'
+    const tokenHeader = req.header('X-Token');
+    const token = tokenHeader.split(':')[1];
+
+    // Query redis with the key 'auth_<token>' to get the user id
+    const userId = await redisClient.get(`auth_${token}`);
+
+    // Find the user in our db
+    const user = dbClient.db.collection('users').findOne({ _id: userId });
+    if (!user) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    // response - user object 'OK'
+    return res.status(200).json({ id: userId, email: user.email });
   }
 }
 
