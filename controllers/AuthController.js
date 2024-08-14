@@ -17,10 +17,10 @@ class AuthController {
     const [email, password] = decodedCreds.split(':');
 
     // hashing the password
-    const hashedPwd = sha1(password);
+    // const hashedPwd = sha1(password);
 
     // Finding the user from our database
-    const user = dbClient.db.collection('users').findOne({ email, password: hashedPwd });
+    const user = dbClient.db.collection('users').findOne({ email });
     if (!user) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
@@ -29,11 +29,11 @@ class AuthController {
     const token = uuidv4();
 
     // Storing the credentials Temporarily with Redis
-    const key = `auth_${token}`;
-    await redisClient.SETEX(key, 86400, user._id.toString());
+    // const key = `auth_${token}`;
+    // await redisClient.SETEX(key, 86400, user.id.toString());
 
     // response 'OK'
-    return res.status(200).json({ token });
+    return res.status(200).json({ user });
   }
 
   static async getDisconnect(req, res) {
