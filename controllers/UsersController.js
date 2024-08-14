@@ -19,7 +19,7 @@ class UsersController {
     const newUser = { email, password: securePassword };
     const saved = await dbClient.db.collection('users').insertOne(newUser);
 
-    return res.status(201).json(
+    return res.status(201).send(
       {
         id: saved.insertedId,
         email: newUser.email,
