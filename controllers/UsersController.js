@@ -1,8 +1,8 @@
 import sha1 from 'sha1';
 import Queue from 'bull/lib/queue';
+import { ObjectId } from 'mongodb';
 import dbClient from '../utils/db';
 import userUtils from '../utils/user';
-import { ObjectId } from 'mongodb';
 
 const userQueue = new Queue('userQueue');
 
@@ -26,7 +26,7 @@ class UsersController {
 
     await userQueue.add({
       userId: saved.insertedId.toString(),
-    })
+    });
 
     return res.status(201).send(
       {
