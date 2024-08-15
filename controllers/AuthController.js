@@ -20,7 +20,7 @@ class AuthController {
     const hashedPwd = sha1(password);
 
     // Finding the user from our database
-    const user = dbClient.db.collection('users').findOne({ email });
+    const user = dbClient.db.collection('users').find();
     // if (!user) {
     //   return res.status(401).send({ error: 'Unauthorized' });
     // }
