@@ -1,6 +1,10 @@
 import sha1 from 'sha1';
-import redisClient from '../utils/redis';
+import Queue from 'bull/lib/queue';
 import dbClient from '../utils/db';
+import userUtils from '../utils/user';
+import { ObjectId } from 'mongodb';
+
+const userQueue = new Queue('userQueue');
 
 class UsersController {
   static async postNew(req, res) {
@@ -20,30 +24,32 @@ class UsersController {
     const newUser = { email, password: securePassword };
     const saved = await dbClient.db.collection('users').insertOne(newUser);
 
+    await userQueue.add({
+      userId: saved.insertedId.toString(),
+    })
+
     return res.status(201).send(
       {
         id: saved.insertedId,
-        email: newUser.email,
+        email,
       },
     );
   }
 
   static async getMe(req, res) {
-    // extract token from the header 'X-Token: <token>'
-    const tokenHeader = req.header('X-Token');
-    const token = tokenHeader.split(':')[1];
+    const { userId } = userUtils.getUserCreds(req);
 
-    // Query redis with the key 'auth_<token>' to get the user id
-    const userId = await redisClient.get(`auth_${token}`);
+    const user = await userUtils.getUser({ _id: ObjectId(userId) });
 
-    // Find the user in our db
-    const user = dbClient.db.collection('users').findOne({ _id: userId });
     if (!user) {
       return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    // response - user object 'OK'
-    return res.status(200).json({ id: userId, email: user.email });
+    const validUser = { id: user._id, ...user };
+    delete validUser._id;
+    delete validUser.password;
+
+    return res.status(200).json(validUser);
   }
 }
 
