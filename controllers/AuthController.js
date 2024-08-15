@@ -12,28 +12,28 @@ class AuthController {
     }
 
     // Decoding the base64 credentials
-    const base64Creds = authHeader.split(' ')[1];
-    const decodedCreds = Buffer.from(base64Creds, 'base64').toString('ascii');
-    const [email, password] = decodedCreds.split(':');
+    // const base64Creds = authHeader.split(' ')[1];
+    // const decodedCreds = Buffer.from(base64Creds, 'base64').toString('ascii');
+    // const [email, password] = decodedCreds.split(':');
 
     // hashing the password
     // const hashedPwd = sha1(password);
 
     // Finding the user from our database
-    const user = dbClient.db.collection('users').findOne({ email });
-    if (!user) {
-      return res.status(401).send({ error: 'Unauthorized' });
-    }
+    // const user = dbClient.db.collection('users').findOne({ email });
+    // if (!user) {
+    //   return res.status(401).send({ error: 'Unauthorized' });
+    // }
 
     // Generating the token for the user
-    const token = uuidv4();
+    // const token = uuidv4();
 
     // Storing the credentials Temporarily with Redis
     // const key = `auth_${token}`;
     // await redisClient.SETEX(key, 86400, user.id.toString());
 
     // response 'OK'
-    return res.status(200).json({ user });
+    return res.status(200).json({ authHeader });
   }
 
   static async getDisconnect(req, res) {
