@@ -12,8 +12,8 @@ class AuthController {
     }
 
     // Decoding the base64 credentials
-    // const base64Creds = authHeader.split(' ')[1];
-    // const decodedCreds = Buffer.from(base64Creds, 'base64').toString('ascii');
+    const base64Creds = authHeader.split(' ')[1];
+    const decodedCreds = Buffer.from(base64Creds, 'base64').toString('ascii');
     // const [email, password] = decodedCreds.split(':');
 
     // hashing the password
@@ -33,7 +33,7 @@ class AuthController {
     // await redisClient.SETEX(key, 86400, user.id.toString());
 
     // response 'OK'
-    return res.status(200).json({ authHeader });
+    return res.status(200).json({ decodedCreds });
   }
 
   static async getDisconnect(req, res) {
